@@ -8,6 +8,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 public class MyContentProvider extends ContentProvider {
 
@@ -40,6 +41,41 @@ public class MyContentProvider extends ContentProvider {
     public MyContentProvider() {
     }
 
+
+    @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        switch (match) {
+
+            case TASKS:
+                db.beginTransaction();
+                int rowsInserted = 0;
+                try {
+                    for (ContentValues value : values) {
+
+                        long _id = db.insert(Contract.Fav.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            rowsInserted++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+
+                if (rowsInserted > 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+
+                return rowsInserted;
+
+            default:
+                return super.bulkInsert(uri, values);
+        }
+    }
+
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
@@ -58,6 +94,12 @@ public class MyContentProvider extends ContentProvider {
                 // Use selections/selectionArgs to filter for this ID
                 tasksDeleted = db.delete(Contract.Fav.TABLE_NAME, "_id=?", new String[]{id});
                 break;
+
+            case TASKS:
+                tasksDeleted = db.delete(Contract.Fav.TABLE_NAME, selection, selectionArgs);
+
+                break;
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

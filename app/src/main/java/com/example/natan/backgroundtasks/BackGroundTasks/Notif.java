@@ -43,7 +43,7 @@ public class Notif {
         NotificationManager mNotifyManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle("You've been notified!")
+                .setContentTitle("Database Updated !!")
                 .setContentText("This is your notification text.")
                 // for big picture notification
                 .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(androidImage))

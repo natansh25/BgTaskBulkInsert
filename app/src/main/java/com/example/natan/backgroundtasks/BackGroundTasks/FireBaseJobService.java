@@ -9,6 +9,8 @@ import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.RetryStrategy;
 
+import org.json.JSONException;
+
 /**
  * Created by natan on 2/7/2018.
  */
@@ -29,7 +31,12 @@ public class FireBaseJobService extends JobService {
             protected Void doInBackground(Void... voids) {
 
                 Context context = getApplicationContext();
-                Notif.notify(context);
+                //Notif.notify(context);
+                try {
+                    SyncTask.syncContacts(context);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 jobFinished(params, false);
                 return null;
             }

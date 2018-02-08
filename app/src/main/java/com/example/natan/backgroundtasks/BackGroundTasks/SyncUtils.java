@@ -3,6 +3,7 @@ package com.example.natan.backgroundtasks.BackGroundTasks;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
@@ -30,7 +31,9 @@ public class SyncUtils {
     private static final int SYNC_FLEXTIME_SECONDS = SYNC_INTERVAL_SECONDS / 1;
 
 
+
     static void scheduleFirebaseJobDispatcherSync(@NonNull final Context context) {
+        Log.i("111", String.valueOf(SYNC_INTERVAL_SECONDS ));
 
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
@@ -66,7 +69,8 @@ public class SyncUtils {
                  */
                 .setTrigger(Trigger.executionWindow(
                         SYNC_INTERVAL_SECONDS,
-                        SYNC_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
+                        SYNC_FLEXTIME_SECONDS + SYNC_INTERVAL_SECONDS))
+
                 /*
                  * If a Job with the tag with provided already exists, this new job will replace
                  * the old one.

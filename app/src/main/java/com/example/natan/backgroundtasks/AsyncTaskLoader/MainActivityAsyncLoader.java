@@ -1,52 +1,55 @@
 package com.example.natan.backgroundtasks.AsyncTaskLoader;
 
-        import android.annotation.SuppressLint;
-        import android.content.Intent;
-        import android.support.v4.app.LoaderManager;
-        import android.support.v4.content.AsyncTaskLoader;
-        import android.support.v4.content.Loader;
-        import android.os.AsyncTask;
-        import android.os.Bundle;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.DefaultItemAnimator;
-        import android.support.v7.widget.DividerItemDecoration;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.util.Log;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.ProgressBar;
-        import android.widget.Toast;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-        import com.example.natan.backgroundtasks.BackGroundTasks.MyService;
-        import com.example.natan.backgroundtasks.BackGroundTasks.Notif;
-        import com.example.natan.backgroundtasks.BackGroundTasks.SyncUtils;
-        import com.example.natan.backgroundtasks.DetailActivity;
-        import com.example.natan.backgroundtasks.MainActivity;
-        import com.example.natan.backgroundtasks.Network.NetworkUtils;
-        import com.example.natan.backgroundtasks.Pojo.Contacts;
-        import com.example.natan.backgroundtasks.Pojo.MyAdapter;
-        import com.example.natan.backgroundtasks.R;
-        import com.example.natan.backgroundtasks.Utils.PrefrencesKeys;
+import com.example.natan.backgroundtasks.BackGroundTasks.MyService;
+import com.example.natan.backgroundtasks.BackGroundTasks.Notif;
+import com.example.natan.backgroundtasks.BackGroundTasks.SyncUtils;
+import com.example.natan.backgroundtasks.Database.Contract;
+import com.example.natan.backgroundtasks.DetailActivity;
+import com.example.natan.backgroundtasks.MainActivity;
+import com.example.natan.backgroundtasks.Network.NetworkUtils;
+import com.example.natan.backgroundtasks.Pojo.Contacts;
+import com.example.natan.backgroundtasks.Pojo.FavAdapter;
+import com.example.natan.backgroundtasks.Pojo.MyAdapter;
+import com.example.natan.backgroundtasks.R;
+import com.example.natan.backgroundtasks.Utils.PrefrencesKeys;
 
-        import org.json.JSONException;
+import org.json.JSONException;
 
-        import java.net.MalformedURLException;
-        import java.net.URL;
-        import java.util.ArrayList;
-        import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-        import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
+import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
 
 /**
  * Created by natan on 2/3/2018.
  */
 
-public class MainActivityAsyncLoader extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Contacts>> {
+public class MainActivityAsyncLoader extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView mRecyclerView;
-    private MyAdapter mMyAdapter;
+    private FavAdapter mFavAdapter;
     private ProgressBar mProgressBar;
     private String URL_EXTRA = "nomac";
 
@@ -65,111 +68,23 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
 
         mRecyclerView.addItemDecoration(itemDecor);
-        URL ur11 = NetworkUtils.buildURl();
-
-        Bundle bundle = new Bundle();
-        bundle.putString(URL_EXTRA, ur11.toString());
-
-        getSupportLoaderManager().initLoader(CONTACT_LOADER, bundle, this);
 
         SyncUtils.initialize(this);
 
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    @Override
-    public Loader<List<Contacts>> onCreateLoader(int id, final Bundle args) {
+        getSupportLoaderManager().initLoader(CONTACT_LOADER,null,this);
 
 
-        return new AsyncTaskLoader<List<Contacts>>(this) {
+        // setting up the adapter
 
-
-            // list variable for loading cached data
-            List<Contacts> list;
-
+        mFavAdapter = new FavAdapter(this, new FavAdapter.RecyclerViewClickListenerFav() {
             @Override
-            protected void onStartLoading() {
-                if (args == null) {
-                    return;
-                }
-
-                mProgressBar.setVisibility(View.VISIBLE);
-
-
-                if (list != null) {
-                    deliverResult(list);
-                } else {
-                    forceLoad();
-                }
-
-
+            public void onClick(Contacts contacts) {
+                Intent i = new Intent(MainActivityAsyncLoader.this, DetailActivity.class);
+                i.putExtra(PrefrencesKeys.Parcelable_key, contacts);
+                startActivity(i);
             }
-
-            @Override
-            public List<Contacts> loadInBackground() {
-                String url = args.getString(URL_EXTRA);
-
-                if (url == null) {
-                    return null;
-                }
-
-                try {
-                    URL url1 = new URL(url);
-                    List<Contacts> json = NetworkUtils.fetchContactData(url1);
-                    return json;
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-
-            }
-
-            //Loader caching if any configuration changes occur so that the device doesnt reload and doesnt perform extra network calls
-
-
-            @Override
-            public void deliverResult(List<Contacts> data) {
-                super.deliverResult(data);
-            }
-        };
-
-
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Contacts>> loader, List<Contacts> data) {
-
-
-        mProgressBar.setVisibility(View.INVISIBLE);
-
-        if (data == null) {
-
-            Toast.makeText(this, "No data Sorry !!", Toast.LENGTH_SHORT).show();
-
-        } else {
-            mMyAdapter = new MyAdapter(data, new MyAdapter.RecyclerViewClickListener() {
-                @Override
-                public void onClick(Contacts contacts) {
-                    Intent i = new Intent(MainActivityAsyncLoader.this, DetailActivity.class);
-                    i.putExtra(PrefrencesKeys.Parcelable_key, contacts);
-                    startActivity(i);
-                }
-            });
-            mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setAdapter(mMyAdapter);
-            mMyAdapter.notifyDataSetChanged();
-
-        }
-
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Contacts>> loader) {
+        });
+        mRecyclerView.setAdapter(mFavAdapter);
 
     }
 
@@ -202,5 +117,42 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         return super.onOptionsItemSelected(item);
 
     }
+
+
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+
+        return new AsyncTaskLoader<Cursor>(this) {
+
+
+            @Override
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+            @Override
+            public Cursor loadInBackground() {
+
+
+                return getContentResolver().query(Contract.Fav.CONTENT_URI, null, null, null, null);
+
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mFavAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+        mFavAdapter.swapCursor(null);
+
+    }
+
 
 }

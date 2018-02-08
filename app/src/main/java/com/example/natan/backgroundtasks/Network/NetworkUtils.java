@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.natan.backgroundtasks.Database.Contract;
 import com.example.natan.backgroundtasks.Pojo.Contacts;
 
 import org.json.JSONArray;
@@ -34,7 +35,7 @@ public class NetworkUtils {
 
     //Fetching the json response
 
-    public static List<Contacts> fetchContactData(URL url) throws JSONException {
+    public static ContentValues[] fetchContactData(URL url) throws JSONException {
         //Log.i("xyz", String.valueOf(url));
 
         String jsonResponse = null;
@@ -45,8 +46,13 @@ public class NetworkUtils {
         }
 
         List<Contacts> contacts = extractFeaturesFromJson(jsonResponse);
-       // ContentValues[] contentValues=data(contacts);
-        return contacts;
+        //convert(contacts);
+        ContentValues[] contentValues = data(contacts);
+       /* for(int i=0;i<contentValues.length;i++)
+        {
+            Log.i("anana", String.valueOf(contentValues[i]));
+        }*/
+        return contentValues;
 
     }
 
@@ -98,10 +104,6 @@ public class NetworkUtils {
         List<Contacts> contacts = new ArrayList<>();
 
 
-
-
-
-
         JSONArray ar = new JSONArray(json);
 
         // for bulk insert
@@ -131,23 +133,38 @@ public class NetworkUtils {
     // method for bulk data insert
 
 
-    public static ContentValues[] data(List<Contacts> contacts)
-    {
+    public static ContentValues[] data(List<Contacts> contacts) {
 
 
-        String[] data=contacts.toArray(new String[contacts.size()]);
-        ContentValues[] cv = new ContentValues[data.length];
+        ContentValues[] contentValues = new ContentValues[contacts.size()];
 
-        for (int i=0;i<=data.length;i++)
-        {
+        for (int i = 0; i < contacts.size(); i++) {
+            ContentValues cv = new ContentValues();
 
-            Log.i("nnn",data[i]);
+            Contacts con = contacts.get(i);
+            cv.put(Contract.Fav.COLUMN_NAME, con.getName());
+            cv.put(Contract.Fav.COLUMN_PHONE, con.getPhone());
+            cv.put(Contract.Fav.COLUMN_IMAGE, con.getImage());
 
+            contentValues[i] = cv;
         }
 
 
+        return contentValues;
 
-        return cv;
+    }
+
+    public static void convert(List<Contacts> contacts) {
+
+        //List<Contacts> contacts1=new ArrayList<>();
+
+        for (int i = 0; i < contacts.size(); i++) {
+
+            Contacts con = contacts.get(i);
+            Log.i("n1n1", String.valueOf(con.getName()));
+
+
+        }
 
     }
 

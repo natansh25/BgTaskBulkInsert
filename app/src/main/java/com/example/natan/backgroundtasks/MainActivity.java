@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mRecyclerView.addItemDecoration(itemDecor);
         URL ur1 = NetworkUtils.buildURl();
-        new MyAsyncTask().execute(ur1);
+        //new MyAsyncTask().execute(ur1);
 
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     //-------------------------------Async Task---------------------------------
 
 
-    class MyAsyncTask extends AsyncTask<URL, Void, List<Contacts>> {
+    /*class MyAsyncTask extends AsyncTask<URL, Void, List<Contacts>> {
 
 
         @Override
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mRecyclerView.setAdapter(mMyAdapter);
             mMyAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
 
     //--------------------------menu option-----------------------------

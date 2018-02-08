@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import org.json.JSONException;
+
 public class MyService extends IntentService {
 
 
@@ -20,7 +22,11 @@ public class MyService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Notif.notify(this);
+        try {
+            SyncTask.syncContacts(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 }
