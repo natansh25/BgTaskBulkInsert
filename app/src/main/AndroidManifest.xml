@@ -33,6 +33,18 @@
             android:name=".BackGroundTasks.MyService"
             android:enabled="true"
             android:exported="true"></service>
+
+
+        <service
+            android:name=".BackGroundTasks.FireBaseJobService"
+            android:exported="false">
+
+
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+
+        </service>
     </application>
 
 </manifest>

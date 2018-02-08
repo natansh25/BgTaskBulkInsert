@@ -72,6 +72,8 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
         getSupportLoaderManager().initLoader(CONTACT_LOADER, bundle, this);
 
+        SyncUtils.initialize(this);
+
     }
 
     @SuppressLint("StaticFieldLeak")
