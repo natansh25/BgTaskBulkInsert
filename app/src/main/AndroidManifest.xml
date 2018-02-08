@@ -25,16 +25,14 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".DetailActivity"
-            android:parentActivityName=".AsyncTaskLoader.MainActivityAsyncLoader" >
+        <activity
+            android:name=".DetailActivity"
+            android:parentActivityName=".AsyncTaskLoader.MainActivityAsyncLoader"></activity>
 
-
-
-
-
-
-
-        </activity>
+        <service
+            android:name=".BackGroundTasks.MyService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

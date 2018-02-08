@@ -1,41 +1,43 @@
 package com.example.natan.backgroundtasks.AsyncTaskLoader;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+        import android.annotation.SuppressLint;
+        import android.content.Intent;
+        import android.support.v4.app.LoaderManager;
+        import android.support.v4.content.AsyncTaskLoader;
+        import android.support.v4.content.Loader;
+        import android.os.AsyncTask;
+        import android.os.Bundle;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.DefaultItemAnimator;
+        import android.support.v7.widget.DividerItemDecoration;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.ProgressBar;
+        import android.widget.Toast;
 
-import com.example.natan.backgroundtasks.BackGroundTasks.Notif;
-import com.example.natan.backgroundtasks.DetailActivity;
-import com.example.natan.backgroundtasks.MainActivity;
-import com.example.natan.backgroundtasks.Network.NetworkUtils;
-import com.example.natan.backgroundtasks.Pojo.Contacts;
-import com.example.natan.backgroundtasks.Pojo.MyAdapter;
-import com.example.natan.backgroundtasks.R;
-import com.example.natan.backgroundtasks.Utils.PrefrencesKeys;
+        import com.example.natan.backgroundtasks.BackGroundTasks.MyService;
+        import com.example.natan.backgroundtasks.BackGroundTasks.Notif;
+        import com.example.natan.backgroundtasks.BackGroundTasks.SyncUtils;
+        import com.example.natan.backgroundtasks.DetailActivity;
+        import com.example.natan.backgroundtasks.MainActivity;
+        import com.example.natan.backgroundtasks.Network.NetworkUtils;
+        import com.example.natan.backgroundtasks.Pojo.Contacts;
+        import com.example.natan.backgroundtasks.Pojo.MyAdapter;
+        import com.example.natan.backgroundtasks.R;
+        import com.example.natan.backgroundtasks.Utils.PrefrencesKeys;
 
-import org.json.JSONException;
+        import org.json.JSONException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+        import java.net.MalformedURLException;
+        import java.net.URL;
+        import java.util.ArrayList;
+        import java.util.List;
 
-import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
+        import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
 
 /**
  * Created by natan on 2/3/2018.
@@ -170,7 +172,6 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     }
 
 
-
     //-------------menu options------------------
 
     @Override
@@ -184,10 +185,15 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id==R.id.action_NOTIF)
-        {
+        if (id == R.id.action_NOTIF) {
 
             Notif.notify(this);
+
+
+        }
+        if (id == R.id.action_Service) {
+
+            SyncUtils.startImmediateSync(this);
 
 
         }

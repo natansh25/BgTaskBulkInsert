@@ -9,4 +9,10 @@
         android:orderInCategory="100"
         android:title="NOTI"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_Service"
+
+        android:orderInCategory="100"
+        android:title="SERVICE_TEST"
+        app:showAsAction="never" />
 </menu>
