@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -59,6 +60,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     private FavAdapter mFavAdapter;
     private ProgressBar mProgressBar;
     private String URL_EXTRA = "nomac";
+    private String value;
 
     //unikely identifiny the loader !!
     public static final int CONTACT_LOADER = 25;
@@ -125,10 +127,14 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 
+
+        //onSaveInstance
+
+
+
+
+
     }
-
-
-
 
 
     @Override
@@ -217,13 +223,23 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
             String key1 = getString(R.string.list_pref_key);
             String def = getString(R.string.pref_color_lable_light);
 
-            String value = sharedPreferences.getString(key1, def);
+            value = sharedPreferences.getString(key1, def);
 
             Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
 
+            if (value.equals("light")) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+
 
         }
+        recreate();
 
 
     }
+
+
+   
 }

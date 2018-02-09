@@ -16,6 +16,8 @@ import java.security.PublicKey;
 public class PrefrencesKeys {
     public final static String Parcelable_key = "parcel";
 
+    public final static String onSaveInstance_Key="onSave";
+
 
     public static boolean areNotificationsEnabled(Context context) {
 
