@@ -1,18 +1,23 @@
 package com.example.natan.backgroundtasks.AsyncTaskLoader;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +36,9 @@ import com.example.natan.backgroundtasks.Pojo.Contacts;
 import com.example.natan.backgroundtasks.Pojo.FavAdapter;
 import com.example.natan.backgroundtasks.Pojo.MyAdapter;
 import com.example.natan.backgroundtasks.R;
+import com.example.natan.backgroundtasks.SettingsActivity;
 import com.example.natan.backgroundtasks.Utils.PrefrencesKeys;
+import com.facebook.stetho.Stetho;
 
 import org.json.JSONException;
 
@@ -46,7 +53,7 @@ import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
  * Created by natan on 2/3/2018.
  */
 
-public class MainActivityAsyncLoader extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivityAsyncLoader extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView mRecyclerView;
     private FavAdapter mFavAdapter;
@@ -54,7 +61,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     private String URL_EXTRA = "nomac";
 
     //unikely identifiny the loader !!
-    private static final int CONTACT_LOADER = 25;
+    public static final int CONTACT_LOADER = 25;
 
 
     @Override
@@ -71,7 +78,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
         SyncUtils.initialize(this);
 
-        getSupportLoaderManager().initLoader(CONTACT_LOADER,null,this);
+        getSupportLoaderManager().restartLoader(CONTACT_LOADER, null, this);
 
 
         // setting up the adapter
@@ -86,6 +93,50 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         });
         mRecyclerView.setAdapter(mFavAdapter);
 
+
+        //swipe to delete
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+
+                int id = (int) viewHolder.itemView.getTag();
+                String sid = String.valueOf(id);
+                Uri uri = Contract.Fav.CONTENT_URI;
+                uri = uri.buildUpon().appendPath(sid).build();
+                getContentResolver().delete(uri, null, null);
+                getSupportLoaderManager().restartLoader(CONTACT_LOADER, null, MainActivityAsyncLoader.this);
+
+
+            }
+        }).attachToRecyclerView(mRecyclerView);
+
+        Stetho.initializeWithDefaults(this);
+
+
+        // Register the listener
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+
+    }
+
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister VisualizerActivity as an OnPreferenceChangedListener to avoid any memory leaks.
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
 
@@ -114,8 +165,12 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
 
         }
-        return super.onOptionsItemSelected(item);
+        if (id == R.id.action_setting) {
 
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -155,4 +210,20 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     }
 
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        if (key.equals(getString(R.string.list_pref_key))) {
+            String key1 = getString(R.string.list_pref_key);
+            String def = getString(R.string.pref_color_lable_light);
+
+            String value = sharedPreferences.getString(key1, def);
+
+            Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+
+
+        }
+
+
+    }
 }

@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">BackgroundTasks</string>
+    <string name="Noti_default">true</string>
+    <string name="Noti_key" translatable="false">noti_on_of</string>
+    <string name="Noti_summary_off">Disabled</string>
+    <string name="Noti_summary_on">Enabled</string>
+    <string name="Noti_title">Notifications</string>
+
+
+    <!--List prefrence color lables-->
+
+    <string name="pref_color_lable_light">Light_theme</string>
+    <string name="pref_color_lable_dark">Dark_theme</string>
+
+    <!--List prefrence color values-->
+
+    <string name="pref_color_light_value">light</string>
+    <string name="pref_color_dark_value">dark</string>
+    <string name="list_pref_key">list_preference</string>
+    <string name="list_pref_title">Choose Theme</string>
+
+
 </resources>

@@ -3,10 +3,15 @@ package com.example.natan.backgroundtasks.BackGroundTasks;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 
+import com.example.natan.backgroundtasks.AsyncTaskLoader.MainActivityAsyncLoader;
 import com.example.natan.backgroundtasks.Database.Contract;
 import com.example.natan.backgroundtasks.Network.NetworkUtils;
+import com.example.natan.backgroundtasks.Utils.PrefrencesKeys;
 
 import org.json.JSONException;
 
@@ -33,11 +38,16 @@ public class SyncTask {
             //Bulk inserting the new data into the database
             contentResolver.bulkInsert(Contract.Fav.CONTENT_URI, contentValues);
 
-            Notif.notify(context);
+
+            boolean NotifShow = PrefrencesKeys.areNotificationsEnabled(context);
+
+            if (NotifShow) {
+
+                Notif.notify(context);
+            }
+
 
         }
-
-
     }
 
 

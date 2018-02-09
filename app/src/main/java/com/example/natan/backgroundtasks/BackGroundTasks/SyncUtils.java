@@ -68,8 +68,8 @@ public class SyncUtils {
                  * guaranteed, but is more of a guideline for FirebaseJobDispatcher to go off of.
                  */
                 .setTrigger(Trigger.executionWindow(
-                        SYNC_INTERVAL_SECONDS,
-                        SYNC_FLEXTIME_SECONDS + SYNC_INTERVAL_SECONDS))
+                        30,
+                        31))
 
                 /*
                  * If a Job with the tag with provided already exists, this new job will replace

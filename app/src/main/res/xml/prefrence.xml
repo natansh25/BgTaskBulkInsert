@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/show_notifications_by_default"
+        android:key="@string/Noti_key"
+        android:summaryOff="@string/Noti_summary_off"
+        android:summaryOn="@string/Noti_summary_on"
+        android:title="@string/Noti_title" />
+    <ListPreference
+        android:defaultValue="@string/pref_color_lable_light"
+        android:entries="@array/pref_color_option_lables"
+        android:entryValues="@array/pref_color_options_value"
+        android:key="@string/list_pref_key"
+        android:title="@string/list_pref_title" />
+
+</PreferenceScreen>

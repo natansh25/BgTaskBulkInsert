@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="pref_color_option_lables">
+        <item>@string/pref_color_lable_light</item>
+        <item>@string/pref_color_lable_dark</item>
+
+    </array>
+
+
+    <array name="pref_color_options_value">
+        <item>@string/pref_color_light_value</item>
+        <item>@string/pref_color_dark_value</item>
+
+    </array>
+
+</resources>
