@@ -241,5 +241,5 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     }
 
 
-   
+
 }
