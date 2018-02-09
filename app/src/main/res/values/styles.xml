@@ -9,4 +9,18 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
+
+    <style name="textView">
+
+
+        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+
 </resources>
+
+
+
