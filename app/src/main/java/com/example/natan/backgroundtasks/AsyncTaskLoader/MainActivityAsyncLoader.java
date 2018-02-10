@@ -68,12 +68,10 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     private FavAdapter mFavAdapter;
     private ProgressBar mProgressBar;
     private String URL_EXTRA = "nomac";
-    private String value,edit_value;
+    private String value, edit_value;
 
     //unikely identifiny the loader !!
     public static final int CONTACT_LOADER = 25;
-
-
 
 
     @Nullable
@@ -153,11 +151,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 
-
         //onSaveInstance
-
-
-
 
 
     }
@@ -198,9 +192,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
                 // SystemClock.sleep(1000);
                 Toast.makeText(this, "Service clicked !!", Toast.LENGTH_SHORT).show();
                 SyncUtils.startImmediateSync(this);
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "No Network connectivity !!", Toast.LENGTH_SHORT).show();
             }
 
@@ -270,26 +262,19 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
             recreate();
         }
-        if (key.equals("edit_text_pref"))
-        {
+        if (key.equals("edit_text_pref")) {
             String key1 = getString(R.string.edit_pref_key);
             String def = getString(R.string.edit_pref_default);
 
-            edit_value=sharedPreferences.getString(key1,def);
+            edit_value = sharedPreferences.getString(key1, def);
 
             setTitle(edit_value);
-
-
 
 
         }
 
 
-
     }
-
-
-
 
 
     // Function for checking is Network connection avaliable ?
@@ -300,7 +285,6 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-
 
 
 }
