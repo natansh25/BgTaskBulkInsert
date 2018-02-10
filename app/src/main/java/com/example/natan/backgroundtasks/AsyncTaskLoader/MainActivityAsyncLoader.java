@@ -191,7 +191,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         }
         if (id == R.id.action_Service) {
 
-            SystemClock.sleep(1000);
+           // SystemClock.sleep(1000);
             Toast.makeText(this, "Service clicked !!", Toast.LENGTH_SHORT).show();
             SyncUtils.startImmediateSync(this);
 

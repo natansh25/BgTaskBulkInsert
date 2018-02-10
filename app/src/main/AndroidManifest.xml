@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AsyncTaskLoader.MainActivityAsyncLoader"
+        <activity
+            android:name=".AsyncTaskLoader.MainActivityAsyncLoader"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,14 +46,21 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".AsyncTaskLoader.MainActivityAsyncLoader">
-
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AsyncTaskLoader.MainActivityAsyncLoader" />
-
-
         </activity>
+
+        <receiver
+            android:name=".BackGroundTasks.MyBroadCastReciverReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
