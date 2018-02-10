@@ -42,6 +42,33 @@ import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+
+
+
+
+    // The Launcher activity and the main activity is MainActivityAsyncLoader
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private RecyclerView mRecyclerView;
     private MyAdapter mMyAdapter;
     private FavAdapter mFavAdapter;

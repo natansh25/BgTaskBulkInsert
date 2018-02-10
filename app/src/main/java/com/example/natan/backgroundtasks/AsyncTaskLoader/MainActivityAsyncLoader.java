@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -31,6 +36,7 @@ import com.example.natan.backgroundtasks.BackGroundTasks.Notif;
 import com.example.natan.backgroundtasks.BackGroundTasks.SyncUtils;
 import com.example.natan.backgroundtasks.Database.Contract;
 import com.example.natan.backgroundtasks.DetailActivity;
+import com.example.natan.backgroundtasks.IdlingResource.SimpleIdlingResource;
 import com.example.natan.backgroundtasks.MainActivity;
 import com.example.natan.backgroundtasks.Network.NetworkUtils;
 import com.example.natan.backgroundtasks.Pojo.Contacts;
@@ -64,6 +70,24 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
     //unikely identifiny the loader !!
     public static final int CONTACT_LOADER = 25;
+
+
+
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    /**
+     * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
 
 
     @Override
@@ -167,6 +191,8 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         }
         if (id == R.id.action_Service) {
 
+            SystemClock.sleep(1000);
+            Toast.makeText(this, "Service clicked !!", Toast.LENGTH_SHORT).show();
             SyncUtils.startImmediateSync(this);
 
 
