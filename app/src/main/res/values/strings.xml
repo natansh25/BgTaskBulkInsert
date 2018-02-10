@@ -20,4 +20,10 @@
     <string name="list_pref_title">Choose Theme</string>
 
 
+
+    //edit text prefrence
+    <string name="edit_pref_default">BackGroundTasks</string>
+    <string name="edit_pref_key">edit_text_pref</string>
+
+
 </resources>

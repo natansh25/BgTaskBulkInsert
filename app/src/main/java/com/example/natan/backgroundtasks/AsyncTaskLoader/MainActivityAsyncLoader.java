@@ -66,7 +66,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     private FavAdapter mFavAdapter;
     private ProgressBar mProgressBar;
     private String URL_EXTRA = "nomac";
-    private String value;
+    private String value,edit_value;
 
     //unikely identifiny the loader !!
     public static final int CONTACT_LOADER = 25;
@@ -259,9 +259,22 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
 
+            recreate();
+        }
+        if (key.equals("edit_text_pref"))
+        {
+            String key1 = getString(R.string.edit_pref_key);
+            String def = getString(R.string.edit_pref_default);
+
+            edit_value=sharedPreferences.getString(key1,def);
+
+            setTitle(edit_value);
+
+
+
 
         }
-        recreate();
+
 
 
     }
