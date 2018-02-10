@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -191,9 +193,16 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         }
         if (id == R.id.action_Service) {
 
-           // SystemClock.sleep(1000);
-            Toast.makeText(this, "Service clicked !!", Toast.LENGTH_SHORT).show();
-            SyncUtils.startImmediateSync(this);
+            if (isOnline()) {
+
+                // SystemClock.sleep(1000);
+                Toast.makeText(this, "Service clicked !!", Toast.LENGTH_SHORT).show();
+                SyncUtils.startImmediateSync(this);
+            }
+            else
+            {
+                Toast.makeText(this, "No Network connectivity !!", Toast.LENGTH_SHORT).show();
+            }
 
 
         }
@@ -277,6 +286,19 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
 
 
+    }
+
+
+
+
+
+    // Function for checking is Network connection avaliable ?
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 
