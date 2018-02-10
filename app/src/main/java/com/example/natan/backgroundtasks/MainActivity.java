@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             mFavAdapter = new FavAdapter(this, new FavAdapter.RecyclerViewClickListenerFav() {
                 @Override
-                public void onClick(Contacts contacts) {
+                public void onClick(Contacts contacts,int id) {
                     Intent i = new Intent(MainActivity.this, DetailActivity.class);
                     i.putExtra(PrefrencesKeys.Parcelable_key, contacts);
                     startActivity(i);

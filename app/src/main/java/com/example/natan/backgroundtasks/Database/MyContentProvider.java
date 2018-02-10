@@ -181,6 +181,27 @@ public class MyContentProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+
+            case TASK_WITH_ID:
+
+                String id = uri.getPathSegments().get(1);
+
+                // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
+                String mSelection = "_id=?";
+                String[] mSelectionArgs = new String[]{id};
+
+
+                retCursor =  db.query(Contract.Fav.TABLE_NAME,
+                        projection,
+                        mSelection,
+                        mSelectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                break;
+
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

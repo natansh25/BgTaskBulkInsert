@@ -31,7 +31,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.MyViewHolder> {
         //void onClick(View view, int position);
 
         //if we want the whole object to retrive the items
-        void onClick(Contacts contacts);
+        void onClick(Contacts contacts,int id);
     }
 
 
@@ -56,10 +56,14 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.MyViewHolder> {
         if (!mCursor.moveToPosition(position))
             return;
 
+        Log.i("fffPOS",String.valueOf(position));
+
         String name = mCursor.getString(mCursor.getColumnIndex(Contract.Fav.COLUMN_NAME));
         String phone = mCursor.getString(mCursor.getColumnIndex(Contract.Fav.COLUMN_PHONE));
         String image = mCursor.getString(mCursor.getColumnIndex(Contract.Fav.COLUMN_IMAGE));
         int id = mCursor.getInt(mCursor.getColumnIndex(Contract.Fav._ID));
+
+        Log.i("fffID",String.valueOf(id));
 
         holder.itemView.setTag(id);
         holder.txt_name.setText(name);
@@ -110,8 +114,9 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.MyViewHolder> {
             Log.i("xyz",name);
             String phone = mCursor.getString(mCursor.getColumnIndex(Contract.Fav.COLUMN_PHONE));
             String image = mCursor.getString(mCursor.getColumnIndex(Contract.Fav.COLUMN_IMAGE));
+            int id = mCursor.getInt(mCursor.getColumnIndex(Contract.Fav._ID));
             Contacts contacts = new Contacts(name, image, phone);
-            mListener.onClick(contacts);
+            mListener.onClick(contacts,id);
 
 
         }

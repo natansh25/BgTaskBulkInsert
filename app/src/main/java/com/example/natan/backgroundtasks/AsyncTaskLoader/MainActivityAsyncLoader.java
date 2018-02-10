@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.example.natan.backgroundtasks.BackGroundTasks.MyService;
 import com.example.natan.backgroundtasks.BackGroundTasks.Notif;
+import com.example.natan.backgroundtasks.BackGroundTasks.SyncTask;
 import com.example.natan.backgroundtasks.BackGroundTasks.SyncUtils;
 import com.example.natan.backgroundtasks.Database.Contract;
 import com.example.natan.backgroundtasks.DetailActivity;
@@ -100,6 +101,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, HORIZONTAL);
 
+
         mRecyclerView.addItemDecoration(itemDecor);
 
         SyncUtils.initialize(this);
@@ -111,9 +113,15 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
 
         mFavAdapter = new FavAdapter(this, new FavAdapter.RecyclerViewClickListenerFav() {
             @Override
-            public void onClick(Contacts contacts) {
+            public void onClick(Contacts contacts,int id) {
+
+                Uri uri= Contract.Fav.CONTENT_URI;
+                String sid = String.valueOf(id);
+                uri=uri.buildUpon().appendPath(sid).build();
+                Log.i("111",String.valueOf(uri));
                 Intent i = new Intent(MainActivityAsyncLoader.this, DetailActivity.class);
                 i.putExtra(PrefrencesKeys.Parcelable_key, contacts);
+                i.setData(uri);
                 startActivity(i);
             }
         });
