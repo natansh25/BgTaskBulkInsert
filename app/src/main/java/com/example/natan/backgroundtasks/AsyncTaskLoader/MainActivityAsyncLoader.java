@@ -70,6 +70,7 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
     private ProgressBar mProgressBar;
     private String URL_EXTRA = "nomac";
     private String value, edit_value;
+    private int selected = -1;
 
     //unikely identifiny the loader !!
     public static final int CONTACT_LOADER = 25;
@@ -118,9 +119,9 @@ public class MainActivityAsyncLoader extends AppCompatActivity implements Loader
                 Uri uri= Contract.Fav.CONTENT_URI;
                 String sid = String.valueOf(id);
                 uri=uri.buildUpon().appendPath(sid).build();
-                Log.i("111",String.valueOf(uri));
+                Log.i("111",sid);
                 Intent i = new Intent(MainActivityAsyncLoader.this, DetailActivity.class);
-                i.putExtra(PrefrencesKeys.Parcelable_key, contacts);
+                //i.putExtra(PrefrencesKeys.Parcelable_key, contacts);
                 i.setData(uri);
                 startActivity(i);
             }

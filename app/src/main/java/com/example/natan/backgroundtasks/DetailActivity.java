@@ -27,7 +27,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     CircleImageView img_dp;
     private String name, phone, image;
     private Uri mUri;
-    private static final int LOADER_ID=10;
+    private static final int LOADER_ID = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +37,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         txt_number = findViewById(R.id.txt_detail_number);
         img_dp = findViewById(R.id.img_detail);
 
-        Bundle bundle=getIntent().getExtras();
 
-        Contacts contacts = getIntent().getParcelableExtra(PrefrencesKeys.Parcelable_key);
-       // mUri=getIntent().getData();
+
+        //Contacts contacts = getIntent().getParcelableExtra(PrefrencesKeys.Parcelable_key);
+        mUri = getIntent().getData();
+        Toast.makeText(this, String.valueOf(mUri), Toast.LENGTH_SHORT).show();
         //if (mUri == null) throw new NullPointerException("URI for DetailActivity cannot be null");
-            mUri= Uri.parse("content://com.example.android.nomac.provider/fav/759");
+        //mUri= Uri.parse("content://com.example.android.nomac.provider/fav/1452");
 
-        if (contacts != null) {
+       /* if (contacts != null) {
             name = contacts.getName();
             phone = contacts.getPhone();
             image = contacts.getImage();
@@ -52,8 +53,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             txt_number.setText(phone);
             Picasso.with(this).load(image).into(img_dp);
 
-        }
-        getSupportLoaderManager().initLoader(LOADER_ID,null,this);
+        }*/
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
     }
 
@@ -69,8 +70,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             Toast.makeText(this, String.valueOf(uri), Toast.LENGTH_SHORT).show();
 
         }
-
-
 
 
     }
@@ -101,23 +100,21 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
 
 
+        if (data.moveToFirst()) {
 
-            if (data.moveToFirst()) {
 
+            String name = data.getString(data.getColumnIndex(Contract.Fav.COLUMN_NAME));
+            String phone = data.getString(data.getColumnIndex(Contract.Fav.COLUMN_PHONE));
+            String image = data.getString(data.getColumnIndex(Contract.Fav.COLUMN_IMAGE));
+            int id = data.getInt(data.getColumnIndex(Contract.Fav._ID));
 
-                String name = data.getString(data.getColumnIndex(Contract.Fav.COLUMN_NAME));
-                String phone = data.getString(data.getColumnIndex(Contract.Fav.COLUMN_PHONE));
-                String image = data.getString(data.getColumnIndex(Contract.Fav.COLUMN_IMAGE));
-                int id = data.getInt(data.getColumnIndex(Contract.Fav._ID));
-
-                Log.i("111", name);
-                Log.i("111", phone);
-                Log.i("111", image);
-                Log.i("111", String.valueOf(id));
-            }
-
+            Log.i("111", name);
+            Log.i("111", phone);
+            Log.i("111", image);
+            Log.i("111", String.valueOf(id));
         }
 
+    }
 
 
     @Override
